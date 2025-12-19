@@ -1,0 +1,18 @@
+export interface UserData {
+  id: string;
+  avatar: string;
+  coverImage?: string;
+  fullName: string;
+  username: string;
+  email: string;
+}
+export interface UserApiResponse<T> {
+  statusCode: number;
+  success: boolean;
+  data: T;
+  message: string;
+}
+
+export interface ApiError {
+  message: string;
+}

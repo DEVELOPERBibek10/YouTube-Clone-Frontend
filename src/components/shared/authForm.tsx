@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 
 const AuthForm = () => {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm flex flex-col gap-4">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
       </CardHeader>
