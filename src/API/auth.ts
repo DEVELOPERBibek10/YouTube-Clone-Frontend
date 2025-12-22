@@ -1,21 +1,20 @@
 import api from "@/lib/Axios/axiosConfig";
-import type { UserData } from "../types.ts";
+import type { UserApiResponse, UserData } from "../types.ts";
 
-interface RegisterUserData {
-  avatar: File;
-  coverImage?: File;
-  fullName: string;
-  username: string;
-  email: string;
-  password: string;
+async function registerUser(data: FormData) {
+  return await api.post<UserApiResponse<UserData>>("/users/register", data);
 }
 
-async function registerUser(data: RegisterUserData) {
-  return await api.post<UserData>("/user/register", data);
+async function loginUser(credentials: { email: string; password: string }) {
+  return await api.post<UserApiResponse<UserData>>("/users/login", credentials);
 }
 
-async function loginUser(email: string, password: string) {
-  return await api.post<UserData>("/user/register", { email, password });
+async function getCurrentUser() {
+  return await api.get<UserApiResponse<UserData>>("/users/current-user");
 }
 
-export { registerUser, loginUser };
+async function logoutUser() {
+  return await api.post<UserApiResponse<{}>>("/users/logout");
+}
+
+export { registerUser, loginUser, logoutUser, getCurrentUser };

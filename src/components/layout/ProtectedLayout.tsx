@@ -1,13 +1,23 @@
-import type { RootState } from "@/lib/Redux/store";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router";
+import { useGetCurrentUser } from "@/Hooks/useGetCurrentUser";
+
+import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedLayout = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  if (!isAuthenticated) {
+  const { data: currentUser, isLoading } = useGetCurrentUser();
+
+  if (isLoading) return <div>...Loading</div>;
+
+  if (!currentUser?.data?.success) {
     return <Navigate to={"/sign-in"} />;
   }
-  return <div>ProtectedLayout</div>;
+
+  return (
+    <>
+      <section className="min-h-screen w-full">
+        <Outlet />
+      </section>
+    </>
+  );
 };
 
 export default ProtectedLayout;

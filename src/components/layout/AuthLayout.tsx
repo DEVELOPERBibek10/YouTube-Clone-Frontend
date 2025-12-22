@@ -1,22 +1,20 @@
-import type { RootState } from "@/lib/Redux/store";
-
-import { useSelector } from "react-redux";
+import { useGetCurrentUser } from "@/Hooks/useGetCurrentUser";
 import { Navigate, Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { data: currentUser, isLoading } = useGetCurrentUser();
 
-  if (isAuthenticated) {
+  if (isLoading) return <div>...Loading</div>;
+  if (currentUser?.data?.success) {
     return <Navigate to="/" />;
-  } else {
-    return (
-      <>
-        <section className="flex flex-1 justify-center items-center flex-col py-10">
-          <Outlet />
-        </section>
-      </>
-    );
   }
+  return (
+    <>
+      <section className="flex flex-1 justify-center items-center flex-col py-10">
+        <Outlet />
+      </section>
+    </>
+  );
 };
 
 export default AuthLayout;

@@ -16,3 +16,12 @@ export interface UserApiResponse<T> {
 export interface ApiError {
   message: string;
 }
+
+export interface RegisterUserData {
+  avatar: File[] | null;
+  coverImage?: File;
+  fullName: string;
+  username: string;
+  email: string;
+  password: string;
+}

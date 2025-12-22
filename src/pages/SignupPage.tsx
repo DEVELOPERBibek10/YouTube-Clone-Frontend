@@ -1,9 +1,9 @@
-import AuthForm from "@/components/shared/authForm";
+import SignupForm from "@/components/SignupForm";
 
 const SignupPage = () => {
   return (
     <>
-      <AuthForm />
+      <SignupForm />
     </>
   );
 };
