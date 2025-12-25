@@ -133,7 +133,11 @@ const SignupForm = () => {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full cursor-pointer mt-5">
+            <Button
+              disabled={!!isLoggingIn}
+              type="submit"
+              className="w-full cursor-pointer mt-5"
+            >
               Login
               {isLoggingIn && (
                 <Oval
