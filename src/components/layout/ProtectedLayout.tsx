@@ -3,12 +3,12 @@ import { useGetCurrentUser } from "@/Hooks/useGetCurrentUser";
 import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedLayout = () => {
-  const { data: currentUser, isLoading } = useGetCurrentUser();
+  const { data: currentUser, isLoading, isError } = useGetCurrentUser();
 
   if (isLoading) return <div>...Loading</div>;
 
-  if (!currentUser?.data?.success) {
-    return <Navigate to={"/sign-in"} />;
+  if (!currentUser || isError) {
+    return <Navigate to={"/sign-in"} replace />;
   }
 
   return (

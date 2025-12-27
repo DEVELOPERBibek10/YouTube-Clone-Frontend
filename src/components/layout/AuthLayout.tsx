@@ -6,7 +6,7 @@ const AuthLayout = () => {
 
   if (isLoading) return <div>...Loading</div>;
   if (currentUser?.data?.success) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
   return (
     <>

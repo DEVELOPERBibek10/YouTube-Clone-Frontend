@@ -10,6 +10,7 @@ async function loginUser(credentials: { email: string; password: string }) {
 }
 
 async function getCurrentUser() {
+  console.log("🚀 NETWORK REQUEST: Fetching user from server...");
   return await api.get<UserApiResponse<UserData>>("/users/current-user");
 }
 

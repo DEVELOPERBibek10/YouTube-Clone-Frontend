@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 const api = axios.create({
   baseURL: "http://localhost:8000/api/v1",
   withCredentials: true,
-  timeout: 6000,
+  timeout: 10000,
 });
 
 api.interceptors.response.use(
