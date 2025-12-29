@@ -1,29 +1,89 @@
+import { logoutUser, refreshAccessToken } from "@/API/auth";
 import type { ApiError } from "@/types";
 import axios, { AxiosError } from "axios";
+import type { FailedRequestItem } from "..";
+
+declare module "axios" {
+  export interface InternalAxiosRequestConfig {
+    _retry?: boolean;
+  }
+}
+
+axios.defaults.withCredentials = true;
+
+let isRefreshing = false;
+const failedQueue: FailedRequestItem[] = [];
+
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue.length = 0;
+};
 
 const api = axios.create({
   baseURL: "http://localhost:8000/api/v1",
   withCredentials: true,
-  timeout: 10000,
+});
+
+export const refresh = axios.create({
+  baseURL: "http://localhost:8000/api/v1",
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error: AxiosError<ApiError>) => {
-    let finalMessage = "An unexpected error occurred";
+  async (error: AxiosError<ApiError>) => {
+    const orgRequest = error.config;
+    const EXCLUDED_ROUTES = [
+      "/logout",
+      "/current-user",
+      "/refresh-token",
+      "/sign-in",
+    ];
 
-    if (error.response) {
-      finalMessage =
-        error.response.data?.message || `Error: ${error.response.status}`;
-    } else if (error.request) {
-      finalMessage = "Network error: Please check your internet connection.";
-    } else {
-      finalMessage = error.message;
+    const isExcluded = EXCLUDED_ROUTES.some((route) =>
+      orgRequest?.url?.includes(route)
+    );
+
+    if (error.response?.status === 401 && !orgRequest?._retry && !isExcluded) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(() => {
+            return api(orgRequest!);
+          })
+          .catch((error) => {
+            return Promise.reject(error);
+          });
+      }
+
+      isRefreshing = true;
+      orgRequest!._retry = true;
+
+      return new Promise((reslove, reject) => {
+        refreshAccessToken()
+          .then(() => {
+            processQueue(null);
+            reslove(api(orgRequest!));
+          })
+          .catch((error) => {
+            processQueue(error, null);
+            logoutUser();
+            reject(error);
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      });
     }
-
-    error.message = finalMessage;
 
     return Promise.reject(error);
   }

@@ -1,4 +1,4 @@
-import api from "@/lib/Axios/axiosConfig";
+import api, { refresh } from "@/lib/Axios/axiosConfig";
 import type { UserApiResponse, UserData } from "../types.ts";
 
 async function registerUser(data: FormData) {
@@ -10,12 +10,21 @@ async function loginUser(credentials: { email: string; password: string }) {
 }
 
 async function getCurrentUser() {
-  console.log("🚀 NETWORK REQUEST: Fetching user from server...");
   return await api.get<UserApiResponse<UserData>>("/users/current-user");
 }
 
 async function logoutUser() {
-  return await api.post<UserApiResponse<{}>>("/users/logout");
+  return await refresh.post<UserApiResponse<null>>("/users/logout");
 }
 
-export { registerUser, loginUser, logoutUser, getCurrentUser };
+async function refreshAccessToken() {
+  return await refresh.post("/users/refresh-token");
+}
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getCurrentUser,
+  refreshAccessToken,
+};
