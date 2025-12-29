@@ -8,6 +8,7 @@ const ProtectedLayout = () => {
   if (isLoading) return <div>...Loading</div>;
 
   if (!currentUser || isError) {
+    localStorage.setItem("isAuth", "false");
     return <Navigate to={"/sign-in"} replace />;
   }
 

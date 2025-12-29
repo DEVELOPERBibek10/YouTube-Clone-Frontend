@@ -43,16 +43,23 @@ api.interceptors.response.use(
     const orgRequest = error.config;
     const EXCLUDED_ROUTES = [
       "/logout",
-      "/current-user",
       "/refresh-token",
       "/sign-in",
+      "/sign-up",
     ];
+
+    const isAuth = JSON.parse(localStorage.getItem("isAuth")!);
 
     const isExcluded = EXCLUDED_ROUTES.some((route) =>
       orgRequest?.url?.includes(route)
     );
 
-    if (error.response?.status === 401 && !orgRequest?._retry && !isExcluded) {
+    if (
+      error.response?.status === 401 &&
+      !orgRequest?._retry &&
+      !isExcluded &&
+      isAuth
+    ) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -68,11 +75,11 @@ api.interceptors.response.use(
       isRefreshing = true;
       orgRequest!._retry = true;
 
-      return new Promise((reslove, reject) => {
+      return new Promise((resolve, reject) => {
         refreshAccessToken()
           .then(() => {
             processQueue(null);
-            reslove(api(orgRequest!));
+            resolve(api(orgRequest!));
           })
           .catch((error) => {
             processQueue(error, null);

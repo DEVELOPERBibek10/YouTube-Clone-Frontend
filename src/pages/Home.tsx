@@ -9,9 +9,9 @@ const Home = () => {
   const handleLogOut = async () => {
     try {
       const logout = await logoutUser();
-      if (!logout?.data?.success || logout.status === 204) {
+      if (!logout?.success || logout.statusCode === 204) {
         throw new Error(
-          logout.data.message || "Error occured while logging out user!"
+          logout?.message || "Error occured while logging out user!"
         );
       }
       if (!isLoggingOut) navigate("/sign-in");

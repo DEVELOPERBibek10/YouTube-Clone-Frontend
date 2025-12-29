@@ -1,3 +1,4 @@
+import { CircleUserRound } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone, type FileWithPath } from "react-dropzone";
 
@@ -29,15 +30,16 @@ const UploadAvatar = ({ fieldChange, mediaUrl }: AvatarUploaderProps) => {
     <div {...getRootProps()}>
       <input {...getInputProps()} className="cursor-pointer" />
 
-      <div className="flex items-center flex-col justify-center gap-4 flex-1 w-full cursor-pointer">
-        <img
-          src={
-            (file && fileUrl) ||
-            "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
-          }
-          alt="user avatar"
-          className="h-24 w-24 rounded-full object-cover object-top"
-        />
+      <div className="flex items-center flex-col justify-center gap-3 flex-1 w-full cursor-pointer">
+        {file && fileUrl ? (
+          <img
+            src={fileUrl}
+            alt="user avatar"
+            className="h-24 w-24 rounded-full object-cover object-top"
+          />
+        ) : (
+          <CircleUserRound color="#0000ff" size={96} />
+        )}
         <span className="text-primary text-base font-normal leading-[140%] md:text-xl md:font-semibold md:tracking-tighter">
           Upload Avatar
         </span>

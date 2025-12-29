@@ -14,7 +14,14 @@ async function getCurrentUser() {
 }
 
 async function logoutUser() {
-  return await refresh.post<UserApiResponse<null>>("/users/logout");
+  try {
+    const logout = await refresh.post<UserApiResponse<null>>("/users/logout");
+    if (!logout.data.success) throw Error("Logout failed");
+    localStorage.setItem("isAuth", "false");
+    return logout.data as UserApiResponse<null>;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function refreshAccessToken() {
