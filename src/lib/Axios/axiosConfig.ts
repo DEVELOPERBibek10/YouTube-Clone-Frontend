@@ -41,12 +41,7 @@ api.interceptors.response.use(
   },
   async (error: AxiosError<ApiError>) => {
     const orgRequest = error.config;
-    const EXCLUDED_ROUTES = [
-      "/logout",
-      "/refresh-token",
-      "/sign-in",
-      "/sign-up",
-    ];
+    const EXCLUDED_ROUTES = ["/logout", "/sign-in", "/sign-up"];
 
     const isAuth = JSON.parse(localStorage.getItem("isAuth")!);
 

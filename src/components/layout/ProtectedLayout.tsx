@@ -1,9 +1,11 @@
 import { useGetCurrentUser } from "@/Hooks/useGetCurrentUser";
-
 import { Navigate, Outlet } from "react-router-dom";
+import Sidebar from "../shared/Sidebar";
+import { useState } from "react";
 
 const ProtectedLayout = () => {
   const { data: currentUser, isLoading, isError } = useGetCurrentUser();
+  const [isOpen, setIsOpen] = useState(false);
 
   if (isLoading) return <div>...Loading</div>;
 
@@ -14,8 +16,8 @@ const ProtectedLayout = () => {
 
   return (
     <>
-      <section className="min-h-screen w-full">
-        <Outlet />
+      <section className="min-h-screen w-full flex gap-12">
+        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} /> <Outlet />
       </section>
     </>
   );

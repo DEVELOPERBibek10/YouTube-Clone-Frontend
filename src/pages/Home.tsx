@@ -9,11 +9,12 @@ const Home = () => {
   const handleLogOut = async () => {
     try {
       const logout = await logoutUser();
-      if (!logout?.success || logout.statusCode === 204) {
+      if (!logout?.data.success || logout.data.statusCode === 204) {
         throw new Error(
-          logout?.message || "Error occured while logging out user!"
+          logout?.data.message || "Error occured while logging out user!"
         );
       }
+      localStorage.setItem("isAuth", "false");
       if (!isLoggingOut) navigate("/sign-in");
     } catch (error) {
       if (error instanceof Error) {
