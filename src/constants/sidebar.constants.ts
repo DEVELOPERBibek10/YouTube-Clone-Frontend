@@ -1,4 +1,13 @@
-import { Home, Settings, User, LogOut } from "lucide-react";
+import {
+  CircleUserRound,
+  History,
+  Home,
+  ListVideo,
+  Play,
+  Settings,
+  SquarePlay,
+  ThumbsUp,
+} from "lucide-react";
 
 const sidebarVarient = {
   open: {
@@ -24,7 +33,7 @@ const parentVarient = {
   open: {
     transition: {
       staggerChildren: 0.07,
-      delayChildren: 0.2,
+      delayChildren: 0,
     },
   },
   close: {
@@ -37,9 +46,13 @@ const parentVarient = {
 
 const menuItems = [
   { icon: Home, label: "Home" },
-  { icon: User, label: "Profile" },
+  { icon: CircleUserRound, label: "You" },
+  { icon: SquarePlay, label: "Subscriptions" },
+  { icon: History, label: "History" },
+  { icon: ThumbsUp, label: "Liked" },
+  { icon: ListVideo, label: "Playlists" },
+  { icon: Play, label: "Owned" },
   { icon: Settings, label: "Settings" },
-  { icon: LogOut, label: "Logout" },
 ];
 
 export { sidebarVarient, childVarient, parentVarient, menuItems };

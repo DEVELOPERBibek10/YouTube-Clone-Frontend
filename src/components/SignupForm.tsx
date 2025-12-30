@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "./ui/input";
-import { CirclePlay, Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,6 +29,7 @@ import { useLogin } from "@/Hooks/useLogin";
 
 import type { RegisterUserData } from "@/types";
 import { Oval } from "react-loader-spinner";
+import Logo from "./shared/Logo";
 
 function convertToFormData(obj: RegisterUserData) {
   const formData = new FormData();
@@ -93,13 +94,7 @@ const SignupForm = () => {
   return (
     <Card className="w-full max-w-lg bg-white border-0 rounded-sm flex flex-col gap-4 shadow-[0px_1px_1px_rgba(0,0,0,0.05),0px_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0px_2px_3px_rgba(0,0,0,0.04)]">
       <CardHeader>
-        <div className="flex w-full gap-1.5 items-center justify-center mb-1.5">
-          <CirclePlay size={50} color="#0000FF" />
-          <div>
-            <span className="text-2xl font-semibold">Vid</span>
-            <span className="text-2xl font-semibold text-primary">Tube</span>
-          </div>
-        </div>
+        <Logo />
         <CardTitle className="w-full text-center text-xl">
           Sign up for an account
         </CardTitle>

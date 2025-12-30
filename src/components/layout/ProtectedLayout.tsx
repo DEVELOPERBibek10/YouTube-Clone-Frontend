@@ -16,7 +16,7 @@ const ProtectedLayout = () => {
 
   return (
     <>
-      <section className="min-h-screen w-full flex gap-12">
+      <section className="min-h-screen w-full flex gap-5">
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} /> <Outlet />
       </section>
     </>
