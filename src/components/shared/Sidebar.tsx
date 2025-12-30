@@ -47,7 +47,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
       transition={{
         duration: 1,
       }}
-      className="flex justify-center h-screen bg-background "
+      className="flex justify-center h-screen bg-background fixed"
     >
       <motion.nav
         variants={sidebarVarient}
@@ -55,18 +55,18 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
       >
         {/* Header with toggle button */}
         <div
-          className={`flex items-center h-15 w-full justify-center shadow-[0px_1px_1px_rgba(0,0,0,0.05),0px_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0px_2px_3px_rgba(0,0,0,0.04)]`}
+          className={`flex items-center h-15 w-full justify-center gap-8 shadow-[0px_1px_1px_rgba(0,0,0,0.05),0px_4px_6px_rgba(34,42,53,0.04),0_24px_68px_rgba(47,48,55,0.05),0px_2px_3px_rgba(0,0,0,0.04)]`}
         >
+          <button onClick={toggleSidebar} aria-label="Toggle sidebar">
+            <motion.div
+              className={`w-12 h-12 ${
+                isOpen ? "fixed left-4 top-2" : "fixed left-4 top-2"
+              } flex justify-center items-center`}
+            >
+              <Menu color="gray" strokeWidth={3} className="w-6 h-6" />
+            </motion.div>
+          </button>
           <AnimatePresence>
-            <button onClick={toggleSidebar} aria-label="Toggle sidebar">
-              <motion.div
-                className={`w-12 h-12 ${
-                  isOpen && "mx-4"
-                } flex justify-center items-center`}
-              >
-                <Menu color="gray" strokeWidth={3} className="w-6 h-6" />
-              </motion.div>
-            </button>
             {isOpen && (
               <motion.div
                 initial={{
@@ -77,8 +77,10 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                 }}
                 exit={{
                   opacity: 0,
+                  translateX: 110,
+                  scale: 1,
                 }}
-                className="w-[97%] mt-1.5"
+                className={`w-full h-full flex gap-5 items-center mt-1.5`}
               >
                 <Logo iconSize={30} fontSize="text-xl" />
               </motion.div>
