@@ -99,7 +99,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
             <motion.li
               key={item.label}
               variants={childVarient}
-              className={`flex items-center ${
+              className={`flex items-center cursor-pointer ${
                 isOpen ? "justify-start" : "justify-center"
               }  gap-5 w-full h-12 hover:bg-sidebar-accent px-4 mx-auto rounded-full`}
             >
