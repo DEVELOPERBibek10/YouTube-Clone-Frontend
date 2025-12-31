@@ -5,7 +5,6 @@ const AuthLayout = () => {
   const { data: currentUser, isLoading } = useGetCurrentUser();
   if (isLoading) return <div>...Loading</div>;
   if (currentUser?.data?.success) {
-    localStorage.setItem("isAuth", "true");
     return <Navigate to="/" replace />;
   }
   return (

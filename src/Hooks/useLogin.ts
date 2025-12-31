@@ -10,7 +10,6 @@ export const useLogin = () => {
       queryClient.invalidateQueries({
         queryKey: ["current-user"],
       });
-      localStorage.setItem("isAuth", "true");
     },
   });
 };

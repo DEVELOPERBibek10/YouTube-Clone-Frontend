@@ -41,20 +41,14 @@ api.interceptors.response.use(
   },
   async (error: AxiosError<ApiError>) => {
     const orgRequest = error.config;
-    const EXCLUDED_ROUTES = ["/logout", "/sign-in", "/sign-up"];
+    const currentUrl = window.location.href;
+    const ExcludedRoute = ["/sign-in", "/sign-up"];
 
-    const isAuth = JSON.parse(localStorage.getItem("isAuth")!);
-
-    const isExcluded = EXCLUDED_ROUTES.some((route) =>
-      orgRequest?.url?.includes(route)
+    const isExcluded = ExcludedRoute.some((route) =>
+      currentUrl.includes(route)
     );
 
-    if (
-      error.response?.status === 401 &&
-      !orgRequest?._retry &&
-      !isExcluded &&
-      isAuth
-    ) {
+    if (error.response?.status === 401 && !orgRequest?._retry && !isExcluded) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
